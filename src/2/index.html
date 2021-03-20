@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CSS Yandex Rover</title>
+  </head>
+  <body
+    style="
+      margin: 0;
+      background-color: #333;
+      display: flex;
+      min-height: 100vh;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    "
+  >
+    <button
+      type="button"
+      style="margin-bottom: 10px; margin-top: 10px"
+      onclick="toggleDiff()"
+    >
+      Show Diff
+    </button>
+    <input
+      type="range"
+      min="0"
+      max="1"
+      step="0.01"
+      value="0.5"
+      style="width: 1000px; margin-bottom: 10px"
+      oninput="changeOpacity(this.value)"
+      onchange="changeOpacity(this.value)"
+    />
+    <div style="width: 1000px; height: 1000px; position: relative">
+      <img
+        src="./input.png"
+        alt=""
+        style="
+          position: absolute;
+          left: 0;
+          z-index: -1;
+          width: 1000px;
+          height: 1000px;
+        "
+      />
+      <iframe
+        src="solution.html"
+        frameborder="0"
+        style="width: 100%; height: 100%; opacity: 0.5"
+      ></iframe>
+    </div>
+    <style>
+      .diff {
+        mix-blend-mode: difference;
+      }
+    </style>
+    <script>
+      const iframe = document.querySelector('iframe')
+      function changeOpacity(newOpacity) {
+        iframe.style.opacity = newOpacity
+      }
+      function toggleDiff() {
+        iframe.classList.toggle('diff')
+      }
+    </script>
+  </body>
+</html>

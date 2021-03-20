@@ -1,0 +1,162 @@
+<style>
+  * {
+    padding: 0;
+    margin: 0;
+  }
+
+  :root {
+    --color-1: #f45a3b;
+    --color-2: #000000;
+    --color-3: #d8d8d8;
+    --color-4: #ff0000;
+    --color-5: #999999;
+    --color-6: #666666;
+    --color-7: #222222;
+    --color-8: #ffffff;
+  }
+
+  body {
+    width: 1000px;
+    height: 1000px;
+  }
+
+  .cart-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+  }
+
+  .cart {
+    width: 550px;
+    height: 780px;
+  }
+
+  .flag {
+    display: flex;
+  }
+
+  .flag__cloth {
+    width: 0;
+    height: 0;
+    margin: 5px 0 0 5px;
+    border-top: 20px solid transparent;
+    border-right: 65px solid var(--color-4);
+    border-bottom: 20px solid transparent;
+  }
+
+  .flag__flagpole {
+    width: 5px;
+    height: 320px;
+    background: var(--color-5);
+  }
+
+  .flag-stand {
+    width: 95px;
+    height: 95px;
+  }
+
+  .flag-stand__top {
+    width: 55px;
+    height: 40px;
+    margin-left: 35px;
+    background: var(--color-6);
+    border-radius: 5px 5px 0 0;
+  }
+
+  .flag-stand__top::before {
+    display: block;
+    width: 55px;
+    height: 8px;
+    background-color: var(--color-2);
+    border-radius: 5px 5px 0 0;
+    content: '';
+  }
+
+  .flag-stand__bottom {
+    border-bottom: 55px solid var(--color-2);
+    border-left: 20px solid transparent;
+  }
+
+  .corpus__cap {
+    height: 50px;
+    margin: 0 10px;
+    background: var(--color-3);
+    border-radius: 200px 50% 0 0 / 50px 50px 0 0;
+  }
+
+  .corpus__edge {
+    height: 15px;
+    margin: 0px 5px;
+    background: var(--color-4);
+    border-radius: 20px;
+  }
+
+  .corpus__body {
+    height: 130px;
+    margin: 0 15px;
+    background: var(--color-1);
+    border-radius: 0 0 25px 25px;
+  }
+
+  .chassis {
+    width: calc(100% - 60px);
+    height: 110px;
+    margin: 0 auto;
+    background-color: var(--color-7);
+    clip-path: polygon(
+      2% 0%,
+      97% -3%,
+      105% 23%,
+      100% 37%,
+      85% 100%,
+      14% 100%,
+      0 36%,
+      0% 10%
+    );
+  }
+
+  .wheels {
+    display: flex;
+    justify-content: space-evenly;
+    width: 570px;
+  }
+
+  .wheel {
+    --wheel-radius: 130px;
+    width: var(--wheel-radius);
+    height: var(--wheel-radius);
+    background-color: var(--color-2);
+    border-radius: 100%;
+    box-shadow: inset 0 0 1px 1px var(--color-7);
+  }
+</style>
+<body>
+  <div class="cart-wrapper">
+    <div class="cart" style="margin-left: 30px; margin-bottom: 10px">
+      <div class="flag" style="margin-left: 70px">
+        <div class="flag__cloth"></div>
+        <div class="flag__flagpole"></div>
+      </div>
+      <div class="flag-stand" style="margin-left: 80px">
+        <div class="flag-stand__top"></div>
+        <div class="flag-stand__bottom"></div>
+      </div>
+      <div class="corpus">
+        <div class="corpus__cap"></div>
+        <div class="corpus__edge"></div>
+        <div class="corpus__body"></div>
+      </div>
+      <div class="chassis"></div>
+      <div
+        class="wheels"
+        style="position: relative; margin-top: -70px; margin-left: -5px"
+      >
+        <div class="wheel"></div>
+        <div class="wheel"></div>
+        <div class="wheel"></div>
+      </div>
+    </div>
+  </div>
+</body>
