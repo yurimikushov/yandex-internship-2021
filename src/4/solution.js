@@ -1,9 +1,3 @@
-// !!! It doesn't work
-
-const isCeil = (rowIndex) => rowIndex === 0
-const isFloor = (rowIndex, rowsCount) => rowIndex === rowsCount - 1
-const isStuff = (stuff) => stuff === 1
-
 const scan = (map) => {
   const result = {
     ceil: 0,
@@ -18,64 +12,113 @@ const scan = (map) => {
   const rowsCount = map.length
   const columnsCount = map[0].length
 
-  const visited = new Array(rowsCount)
-    .fill([])
-    .map(() => new Array(columnsCount).fill(false))
+  const visited = Array.from(map).map((row) => row.map(() => false))
 
-  for (let columnIndex = 0; columnIndex < columnsCount; columnIndex++) {
-    let startFromCeiling = false
-    let endOnFloor = false
+  const scanAround = (y, x) => {
+    if (y + 1 > rowsCount || x + 1 > columnsCount) {
+      return [false, false]
+    }
 
-    const moveTo = (rowIndex, columnIndex) => {
-      if (visited[rowIndex][columnIndex]) {
+    if (map[y][x] === 0) {
+      return [false, false]
+    }
+
+    let startFromTop = false
+    let endOnBottom = false
+
+    if (y === 0) {
+      startFromTop = true
+    } else if (y === rowsCount - 1) {
+      endOnBottom = true
+    }
+
+    const scanAroundNextPoint = (y, x) => {
+      if (visited[y][x]) {
         return
       }
 
-      visited[rowIndex][columnIndex] = true
+      visited[y][x] = true
 
-      if (isStuff(map[rowIndex][columnIndex])) {
-        if (columnIndex + 1 < columnsCount) {
-          moveTo(rowIndex, ++columnIndex)
-        }
-        if (rowIndex + 1 < rowsCount) {
-          moveTo(++rowIndex, columnIndex)
-        }
+      const result = scanAround(y, x)
+
+      startFromTop = startFromTop || result[0]
+      endOnBottom = endOnBottom || result[1]
+    }
+
+    const scanAroundRightPoint = () => {
+      if (x + 1 < columnsCount) {
+        scanAroundNextPoint(y, x + 1)
       }
     }
 
-    for (let rowIndex = 0; rowIndex < rowsCount; rowIndex++) {
-      if (!isStuff(map[rowIndex][columnIndex])) {
-        visited[rowIndex][columnIndex] = true
-        continue
+    const scanAroundTopPoint = () => {
+      if (y - 1 > 0) {
+        scanAroundNextPoint(y - 1, x)
       }
-
-      if (visited[rowIndex][columnIndex]) {
-        continue
-      }
-
-      if (isCeil(rowIndex)) {
-        startFromCeiling = true
-      } else if (isFloor(rowIndex, rowsCount)) {
-        endOnFloor = true
-      }
-
-      moveTo(rowIndex, columnIndex)
     }
 
-    if (startFromCeiling && !endOnFloor) {
-      result.ceil++
-      startFromCeiling = false
-    } else if (!startFromCeiling && endOnFloor) {
-      result.ﬂoor++
-      endOnFloor = false
-    } else if (startFromCeiling && endOnFloor) {
-      result.both++
-      startFromCeiling = false
-      endOnFloor = false
+    const scanAroundBottomPoint = () => {
+      if (y + 1 < rowsCount) {
+        scanAroundNextPoint(y + 1, x)
+      }
+    }
+
+    scanAroundRightPoint()
+    scanAroundTopPoint()
+    scanAroundBottomPoint()
+
+    return [startFromTop, endOnBottom]
+  }
+
+  for (let y = 0; y < rowsCount; y++) {
+    for (let x = 0; x < columnsCount; x++) {
+      if (visited[y][x]) {
+        continue
+      }
+
+      const [startFromTop, endOnBottom] = scanAround(y, x)
+
+      if (startFromTop && !endOnBottom) {
+        result.ceil++
+      } else if (!startFromTop && endOnBottom) {
+        result.ﬂoor++
+      } else if (startFromTop && endOnBottom) {
+        result.both++
+      }
     }
   }
 
   return result
 }
+
+// 2, 2, 1
+
+console.log(
+  scan([
+    [1, 1, 0, 0, 0, 1, 0, 1, 1],
+    [1, 1, 0, 1, 0, 1, 0, 0, 0],
+    [0, 1, 0, 1, 0, 0, 0, 1, 1],
+  ])
+)
+
+// 0, 0, 1
+
+console.log(
+  scan([
+    [1, 1, 0],
+    [1, 1, 0],
+    [0, 1, 0],
+  ])
+)
+
+// 1, 1, 0
+
+console.log(
+  scan([
+    [0, 1, 1],
+    [0, 0, 0],
+    [0, 1, 1],
+  ])
+)
 
 module.exports = { scan }
