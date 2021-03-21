@@ -25,7 +25,7 @@ module.exports = async function (input) {
   const haveDuplicateChars = (str) => str.length !== new Set([...str]).size
 
   const findDamagedFiles = async (directory) => {
-    let damagedFiles = []
+    const damagedFiles = []
 
     const directorySize = await getDirectorySize(directory)
 
@@ -37,11 +37,9 @@ module.exports = async function (input) {
       }
 
       if (isFolder(file)) {
-        damagedFiles = [...damagedFiles, ...(await findDamagedFiles(file))]
-      } else {
-        if (haveDuplicateChars(file)) {
-          damagedFiles.push(file)
-        }
+        damagedFiles.push(...(await findDamagedFiles(file)))
+      } else if (haveDuplicateChars(file)) {
+        damagedFiles.push(file)
       }
     }
 
